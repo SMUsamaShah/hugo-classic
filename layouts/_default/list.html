@@ -18,4 +18,27 @@
      {{ end }}
    </ul>
 </div>
+
+<!-- {{ range .Site.Taxonomies.tags }}
+<div>
+    <h5><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></h5>
+    <time class="timeago" datetime='{{ .Page.Date.Format "2006-01-02T15:04:05-07:00" }}'>{{ .Page.Date }}</time>
+</div>
+{{ end }}
+
+{{ range $taxonomyname, $taxonomy := .Site.Taxonomies }}
+  <li><a href="{{ "/" | relLangURL}}{{ $taxonomyname | urlize }}">{{ $taxonomyname }} {{ $taxonomy }}</a>
+    <ul>
+      {{ range $key, $value := $taxonomy }}
+      <li> {{ $key }} {{ $value }} {{ $taxonomy }} </li>
+            <ul>
+            {{ range $value.Pages }}
+                <li><a href="{{ .Permalink}}"> {{ .LinkTitle }} </a> </li>
+            {{ end }}
+            </ul>
+      {{ end }}
+    </ul>
+  </li>
+{{ end }} -->
+
 {{ partial "footer.html" . }}

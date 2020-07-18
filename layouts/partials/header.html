@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
   <head>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
+	<title>{{ .Title }} | {{ .Site.Title }}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
@@ -13,7 +10,67 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.Description }}{{ end }}">
-    <title>{{ .Title }} | {{ .Site.Title }}</title>
+
+	{{ template "_internal/opengraph.html" . }}
+	{{ template "_internal/twitter_cards.html" . }}
+	
+	<meta name="google-site-verification" content="fcsy6xwzGDIwyzoNhlebWTJvbkmQNzPNwrpy0YpIqHI"/>
+	{{ template "_internal/google_analytics.html" . }}
+	
+	<!-- JSON-LD -->
+    {{ if .IsHome }}
+    <script type="application/ld+json">
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "{{ .Permalink }}", 
+      "name": "{{ .Site.Title }}",
+       "author": {
+          "@type": "Person",
+          "name": "{{ .Site.Params.author }}"
+        },
+      "description": "{{ .Site.Params.description }}",
+    }
+    </script>
+    {{ end }}
+    {{ if .IsPage }}
+        <script type="application/ld+json">
+        {{if eq .Section "post"}}
+        { 
+            "@context": "http://schema.org", 
+            "@type": "BlogPosting",
+            "headline": "{{ .Title }}",
+            "genre": "{{ range .Params.categories }}{{ . }}{{ end }}",  
+            "url": "{{ .Permalink }}",
+            "datePublished": "{{ time .Date }}",
+            "description": "{{ .Description }}",
+            "author": {
+                "@type": "Person",
+                "name": "{{ .Site.Params.author }}"
+            }
+         }
+        {{ else }}
+        { 
+          "@context": "http://schema.org", 
+          "@type": "WebSite", 
+          "url": "{{ .Permalink }}", 
+          "name": "{{ .Title }}",
+           "author": {
+              "@type": "Person",
+              "name": "{ .Site.Params.author }}"
+            },
+          "description": "{ .Site.Params.description }}",
+        }
+        {{ end }}
+        </script>
+    {{ end }}
+	
+	<!-- rss and other output formats -->
+	{{ range .AlternativeOutputFormats -}}
+		{{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+	{{ end -}}
+	
+    
     <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}" />
     <link rel="stylesheet" href="{{ "/css/fonts.css" | relURL }}" />
     {{ range .Site.Params.custom_css -}}
