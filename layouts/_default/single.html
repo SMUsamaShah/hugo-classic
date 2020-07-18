@@ -20,5 +20,6 @@
     {{ .Content }}
     <a href="/"> >> Home</a>
   </main>
+  {{ template "_internal/disqus.html" . }}
 </div>
 {{ partial "footer.html" . }}
