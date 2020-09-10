@@ -20,6 +20,30 @@
     {{ .Content }}
     <a href="/"> >> Home</a>
   </main>
-  {{ template "_internal/disqus.html" . }}
+  <div class="disqus-comments">                  
+    <button id="show-comments" class="btn btn-default" type="button" 
+    style="margin-left: auto;margin-right: auto;display: block;">Show <span class="disqus-comment-count" data-disqus-url="{{ trim .Permalink "/" }}">comments</span>
+    </button>
+    <div id="disqus_thread"></div>
+  </div>
+  <script id="dsq-count-scr" src="//{{.Site.DisqusShortname}}.disqus.com/count.js" async></script>
+  <script>
+    (function(){
+      let showCommentsBtn = document.getElementById("show-comments");
+      showCommentsBtn.onclick = function(){
+        var disqus_shortname = '{{.Site.DisqusShortname}}';
+    
+        (function() {
+          var disqus = document.createElement('script'); 
+          disqus.type = 'text/javascript'; 
+          disqus.async = true;
+          disqus.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(disqus);
+        })();
+    
+        showCommentsBtn.style.display="none"; // Hide the button
+      };
+    })();
+  </script>
 </div>
 {{ partial "footer.html" . }}

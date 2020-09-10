@@ -72,7 +72,7 @@
 	
     
     <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}" />
-    <link rel="stylesheet" href="{{ "/css/fonts.css" | relURL }}" />
+    <!-- <link rel="stylesheet" href="{{ "/css/fonts.css" | relURL }}" /> -->
     {{ range .Site.Params.custom_css -}}
     <link rel="stylesheet" href="{{ . | absURL }}">
     {{- end }}
